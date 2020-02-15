@@ -45,6 +45,11 @@ mrb_esp32_system_deep_sleep_for(mrb_state *mrb, mrb_value self) {
   return self;
 }
 
+static mrb_value
+mrb_esp32_system_tick_ms(mrb_state *mrb, mrb_value self) {
+  return mrb_fixnum_value(xTaskGetTickCount());
+}
+
 void
 mrb_mruby_esp32_system_gem_init(mrb_state* mrb) {
   struct RClass *esp32_module = mrb_define_module(mrb, "ESP32");
@@ -56,6 +61,7 @@ mrb_mruby_esp32_system_gem_init(mrb_state* mrb) {
   mrb_define_module_function(mrb, esp32_system_module, "sdk_version", mrb_esp32_system_sdk_version, MRB_ARGS_NONE());
   mrb_define_module_function(mrb, esp32_system_module, "restart", mrb_esp32_system_restart, MRB_ARGS_NONE());
   mrb_define_module_function(mrb, esp32_system_module, "deep_sleep_for", mrb_esp32_system_deep_sleep_for, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, esp32_system_module, "tick_ms", mrb_esp32_system_tick_ms, MRB_ARGS_NONE());
 }
 
 void
